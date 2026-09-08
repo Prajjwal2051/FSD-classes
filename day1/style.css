@@ -1,0 +1,55 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background-color: lightblue;
+}
+
+header {
+    background-color: darkblue;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+nav {
+    background-color: black;
+    text-align: center;
+    padding: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 15px;
+}
+
+section {
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    color: darkblue;
+}
+
+.event {
+    background-color: lightgray;
+    margin: 15px;
+    padding: 10px;
+}
+
+button {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border: none;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}

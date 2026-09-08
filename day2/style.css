@@ -1,0 +1,76 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background-color: lightgray;
+}
+
+header {
+    text-align: center;
+    background-color: navy;
+    color: white;
+    padding: 20px;
+}
+
+.resume {
+    display: flex;
+    width: 90%;
+    margin: 20px auto;
+    background-color: white;
+}
+
+aside {
+    width: 30%;
+    padding: 20px;
+    background-color: #ddd;
+}
+
+main {
+    width: 70%;
+    padding: 20px;
+}
+
+h2 {
+    color: navy;
+    border-bottom: 1px solid black;
+}
+
+h3 {
+    margin-bottom: 5px;
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.projects article {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+footer {
+    text-align: center;
+    background-color: navy;
+    color: white;
+    padding: 10px;
+}
+
+@media (max-width: 600px) {
+
+    .resume {
+        display: block;
+    }
+
+    aside {
+        width: auto;
+    }
+
+    main {
+        width: auto;
+    }
+
+    .projects {
+        grid-template-columns: 1fr;
+    }
+}

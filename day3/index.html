@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+  <script src="main.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      background: #eee;
+    }
+
+    .form {
+      width: 350px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border: 1px solid #ccc;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0 12px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 9px 18px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form">
+    <h2>Registration</h2>
+
+    <form>
+      <label>Username</label>
+      <input type="text" name="username" required>
+      <span id="usernameMsg"></span>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <span id="emailMsg"></span>
+
+      <label>Mobile Number</label>
+      <input type="tel" name="mobile" required>
+      <span id="mobileMsg"></span>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+      <span id="passwordMsg"></span>
+
+      <label>Confirm Password</label>
+      <input type="password" name="confirmPassword" required>
+      <span id="confirmMsg"></span>
+
+      <label>Branch</label>
+      <select name="branch" required>
+        <option value="">Select Branch</option>
+        <option>CSE</option>
+        <option>IT</option>
+        <option>ECE</option>
+        <option>EEE</option>
+        <option>Mechanical</option>
+      </select>
+
+      <label>Profile Picture</label>
+      <input type="file" name="profile">
+
+      <button type="submit">Register</button>
+      <button type="reset">Reset</button>
+    </form>
+  </div>
+
+</body>
+</html>
