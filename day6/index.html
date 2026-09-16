@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Day 6</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <body>
+        <h2>Event Handling Demo</h2>
+
+    <button id="btn">Click Me</button>
+
+    <input type="text" id="inputField" placeholder="Type something...">
+    <p id="output">Your text will appear here</p>
+
+    <input type="password" id="passwordField" placeholder="Enter password">
+    <p id="passwordOutput">Password strength will be displayed here</p>
+
+
+
+    <script>
+        document.body.addEventListener('click', function() {
+            console.log('Body clicked');
+        });
+
+        document.getElementById('btn').addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevents the body click event from firing
+            alert('Button clicked!');
+        });
+
+        // now upadte the paragraph while typing in the input field
+        document.getElementById('inputField').addEventListener('input', function() {
+            document.getElementById('output').textContent = this.value;
+        });
+
+        // now check the password strength while typing in the password field
+        document.getElementById('passwordField').addEventListener('input', function() {
+            let password = this.value.length;
+            let message;
+            if(password < 6) {
+                message = 'Weak password';
+            } else if(password < 10) {
+                message = 'Moderate password';
+            } else {
+                message = 'Strong password';
+            }
+            console.log(message);
+            document.getElementById('passwordOutput').textContent = message;
+        });
+
+
+
+
+
+    </script>
+
+
+
+    </body>
+
+</html>
