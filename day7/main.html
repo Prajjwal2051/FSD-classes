@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Quiz</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .quiz {
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            margin: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz">
+    <h2 id="question"></h2>
+
+    <button onclick="checkAnswer(0)" id="option0"></button>
+    <button onclick="checkAnswer(1)" id="option1"></button>
+    <button onclick="checkAnswer(2)" id="option2"></button>
+    <button onclick="checkAnswer(3)" id="option3"></button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+    let questions = [
+        {
+            q: "Which language is used to create web pages?",
+            options: ["Python", "HTML", "C++", "Java"],
+            answer: 1
+        },
+        {
+            q: "Which language is used to style a webpage?",
+            options: ["HTML", "CSS", "Python", "C"],
+            answer: 1
+        },
+        {
+            q: "Which language makes a webpage interactive?",
+            options: ["CSS", "HTML", "JavaScript", "SQL"],
+            answer: 2
+        }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+        document.getElementById("question").innerHTML =
+            questions[current].q;
+
+        for (let i = 0; i < 4; i++) {
+            document.getElementById("option" + i).innerHTML =
+                questions[current].options[i];
+        }
+
+        document.getElementById("result").innerHTML = "";
+    }
+
+    function checkAnswer(choice) {
+        if (choice == questions[current].answer) {
+            document.getElementById("result").innerHTML = "Correct!";
+            score++;
+        } else {
+            document.getElementById("result").innerHTML = "Wrong!";
+        }
+
+        setTimeout(() => {
+            current++;
+
+            if (current < questions.length) {
+                showQuestion();
+            } else {
+                document.querySelector(".quiz").innerHTML =
+                    "<h2>Quiz Completed!</h2>" +
+                    "<h3>Your Score: " + score + "/" + questions.length + "</h3>";
+            }
+        }, 800);
+    }
+
+    showQuestion();
+</script>
+
+</body>
+</html>
