@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React To-Do App</title>
+  <!-- React & ReactDOM CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel for JSX compilation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .todo-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    h2 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+    }
+    .todo-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .todo-input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1px solid #d9d9d9;
+      border-radius: 6px;
+      outline: none;
+    }
+    .todo-input:focus {
+      border-color: #1677ff;
+    }
+    .btn-add {
+      padding: 10px 18px;
+      font-size: 15px;
+      background-color: #1677ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .btn-add:hover {
+      background-color: #4096ff;
+    }
+    .counter {
+      font-weight: 600;
+      color: #333;
+      margin: 12px 0;
+    }
+    .empty-message {
+      color: #888;
+      font-style: italic;
+      text-align: center;
+      margin: 24px 0;
+    }
+    .task-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      background-color: #fafafa;
+      border: 1px solid #ebebeb;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s;
+    }
+    .task-item:hover {
+      background-color: #f0f0f0;
+    }
+    .task-text {
+      flex: 1;
+      word-break: break-word;
+    }
+    .task-text.done {
+      text-decoration: line-through;
+      color: #888;
+    }
+    .btn-delete {
+      margin-left: 12px;
+      padding: 5px 12px;
+      background-color: #ff4d4f;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .btn-delete:hover {
+      background-color: #ff7875;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { Component } = React;
+
+    // Rule: TaskItem must be a function component that only receives props (the task and two handlers)
+    function TaskItem({ task, onToggle, onDelete }) {
+      return (
+        <li className="task-item" onClick={() => onToggle(task.id)}>
+          <span className={`task-text ${task.done ? "done" : ""}`}>
+            {task.text}
+          </span>
+          <button
+            type="button"
+            className="btn-delete"
+            onClick={(e) => {
+              e.stopPropagation(); // Avoid triggering toggle on delete
+              onDelete(task.id);
+            }}
+          >
+            Delete
+          </button>
+        </li>
+      );
+    }
+
+    // Rule: App must be a class component that holds the state (text and tasks)
+    class App extends Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          text: "",
+          tasks: []
+        };
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleAddTask = this.handleAddTask.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+      }
+
+      handleInputChange(e) {
+        this.setState({ text: e.target.value });
+      }
+
+      handleAddTask(e) {
+        if (e) e.preventDefault();
+        const trimmedText = this.state.text.trim();
+        // Rule: Do not add empty tasks
+        if (!trimmedText) return;
+
+        const newTask = {
+          id: Date.now(),
+          text: trimmedText,
+          done: false
+        };
+
+        // Rule: Use setState, never change this.state directly
+        this.setState((prevState) => ({
+          tasks: [...prevState.tasks, newTask],
+          text: ""
+        }));
+      }
+
+      handleToggle(id) {
+        // Clicking a task marks it done (strike-through). Clicking it again undoes it.
+        this.setState((prevState) => ({
+          tasks: prevState.tasks.map((task) =>
+            task.id === id ? { ...task, done: !task.done } : task
+          )
+        }));
+      }
+
+      handleDelete(id) {
+        // Each task has a Delete button
+        this.setState((prevState) => ({
+          tasks: prevState.tasks.filter((task) => task.id !== id)
+        }));
+      }
+
+      render() {
+        const totalTasks = this.state.tasks.length;
+        const completedTasks = this.state.tasks.filter((t) => t.done).length;
+
+        return (
+          <div className="todo-card">
+            <h2>To-Do App</h2>
+
+            {/* Input box and Add button */}
+            <form onSubmit={this.handleAddTask} className="todo-form">
+              <input
+                type="text"
+                className="todo-input"
+                placeholder="Enter a task..."
+                value={this.state.text}
+                onChange={this.handleInputChange}
+              />
+              <button type="submit" className="btn-add">
+                Add
+              </button>
+            </form>
+
+            {/* If there are no tasks, show "No tasks yet. Add one!". Otherwise show counter and list */}
+            {totalTasks === 0 ? (
+              <p className="empty-message">No tasks yet. Add one!</p>
+            ) : (
+              <>
+                {/* Counter: "2 of 5 tasks done" */}
+                <p className="counter">
+                  {completedTasks} of {totalTasks} tasks done
+                </p>
+
+                {/* Render the list with .map() and a key */}
+                <ul className="task-list">
+                  {this.state.tasks.map((task) => (
+                    <TaskItem
+                      key={task.id}
+                      task={task}
+                      onToggle={this.handleToggle}
+                      onDelete={this.handleDelete}
+                    />
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        );
+      }
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
+
