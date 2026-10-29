@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 12 - Age Component</title>
+  <!-- React & Babel CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f3f4f6;
+    }
+    .card {
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 20px;
+      color: #111827;
+      font-size: 28px;
+    }
+    input {
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #2563eb;
+    }
+    button {
+      padding: 10px 18px;
+      margin-left: 8px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function AgeComponent({ age = 20 }) {
+      const [currentAge, setCurrentAge] = useState(age);
+      const [inputAge, setInputAge] = useState("");
+
+      // Update currentAge whenever prop 'age' changes
+      useEffect(() => {
+        setCurrentAge(age);
+      }, [age]);
+
+      const handleUpdate = () => {
+        if (inputAge.trim() !== "") {
+          setCurrentAge(inputAge);
+          setInputAge("");
+        }
+      };
+
+      return (
+        <div className="card">
+          <h1>Age: {currentAge}</h1>
+          <input
+            type="number"
+            placeholder="Enter new age"
+            value={inputAge}
+            onChange={(e) => setInputAge(e.target.value)}
+          />
+          <button onClick={handleUpdate}>Update Age</button>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<AgeComponent age={22} />);
+  </script>
+</body>
+</html>
