@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  background: white;
+  color: #222;
+  transition: 0.2s;
+}
+
+.dark {
+  background: #181818;
+  color: white;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+header,
+.input-row,
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.input-row {
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.note {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.note span {
+  flex: 1;
+}
+
+.delete {
+  color: #e11d48;
+}
+
+.dark .note,
+.dark input {
+  background: #252525;
+  color: white;
+  border: 1px solid #555;
+}
+
+.dark .delete {
+  background: #252525;
+}

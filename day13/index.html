@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 13 - React Router App</title>
+  <!-- React & ReactDOM CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- React Router 6 CDN -->
+  <script crossorigin src="https://unpkg.com/@remix-run/router@1.19.2/dist/router.umd.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-router@6.26.2/dist/umd/react-router.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-router-dom@6.26.2/dist/umd/react-router-dom.development.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #f8fafc;
+      color: #1e293b;
+    }
+    nav {
+      background: #0f172a;
+      padding: 14px 24px;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: #f1f5f9;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #38bdf8;
+    }
+    .container {
+      max-width: 600px;
+      margin: 32px auto;
+      background: #ffffff;
+      padding: 24px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      margin: 10px 0;
+      padding: 12px;
+      background: #f1f5f9;
+      border-radius: 6px;
+    }
+    li a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .not-found {
+      color: #dc2626;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { HashRouter, Routes, Route, Link, useParams } = ReactRouterDOM;
+    const { useState } = React;
+
+    const tasks = [
+      { id: "1", title: "Learn React Basics", desc: "Study functional components, props, and hooks." },
+      { id: "2", title: "Master React Router", desc: "Build single-page apps with dynamic routes and params." },
+      { id: "3", title: "Complete College Lab", desc: "Submit all lab exercises for FSD-classes." }
+    ];
+
+    function Navigation() {
+      return (
+        <nav>
+          <Link to="/">Dashboard</Link>
+          <Link to="/settings">Settings</Link>
+          <Link to="/invalid-page">Test 404</Link>
+        </nav>
+      );
+    }
+
+    function Dashboard() {
+      return (
+        <div className="container">
+          <h2>Task Dashboard</h2>
+          <ul>
+            {tasks.map((task) => (
+              <li key={task.id}>
+                <Link to={`/task/${task.id}`}>{task.title} →</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    function TaskDetails() {
+      const { taskId } = useParams();
+      const task = tasks.find((t) => t.id === taskId);
+
+      if (!task) {
+        return (
+          <div className="container not-found">
+            <h2>Task Not Found</h2>
+            <Link className="back-btn" to="/">← Back to Dashboard</Link>
+          </div>
+        );
+      }
+
+      return (
+        <div className="container">
+          <h2>Task Details (ID: {taskId})</h2>
+          <h3>{task.title}</h3>
+          <p style={{ color: "#475569" }}>{task.desc}</p>
+          <Link className="back-btn" to="/">← Back to Dashboard</Link>
+        </div>
+      );
+    }
+
+    function Settings() {
+      const [theme, setTheme] = useState("Light");
+      const [notifications, setNotifications] = useState(true);
+
+      return (
+        <div className="container">
+          <h2>User Settings</h2>
+          <p>
+            <label>Theme: </label>
+            <select value={theme} onChange={(e) => setTheme(e.target.value)} style={{ padding: "4px 8px" }}>
+              <option>Light</option>
+              <option>Dark</option>
+            </select>
+          </p>
+          <p>
+            <label>
+              <input
+                type="checkbox"
+                checked={notifications}
+                onChange={(e) => setNotifications(e.target.checked)}
+              />
+              {" "}Enable Notifications
+            </label>
+          </p>
+          <p style={{ color: "#64748b", fontSize: "14px" }}>
+            Current settings: {theme} mode | Notifications: {notifications ? "Enabled" : "Disabled"}
+          </p>
+        </div>
+      );
+    }
+
+    function NotFound() {
+      return (
+        <div className="container not-found">
+          <h2>404 - Page Not Found</h2>
+          <p style={{ color: "#64748b" }}>The page you are looking for does not exist.</p>
+          <Link className="back-btn" to="/">Return to Dashboard</Link>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <HashRouter>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/task/:taskId" element={<TaskDetails />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </HashRouter>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
