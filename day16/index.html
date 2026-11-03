@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lab Experiment 11 - Event Handling</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 40px;
+      }
+      .box {
+        display: inline-block;
+        padding: 15px 30px;
+        background: #e0e7ff;
+        border-radius: 6px;
+        margin: 10px;
+        cursor: pointer;
+      }
+      input,
+      button {
+        padding: 10px 14px;
+        margin: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      button {
+        background: #2563eb;
+        color: white;
+        cursor: pointer;
+        border: none;
+      }
+      #msg {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2563eb;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Event Handling Demonstration</h2>
+
+    <!-- 1. onmouseover -->
+    <div class="box" id="box">Hover Over Me (onmouseover)</div>
+    <br />
+
+    <!-- 2. onclick -->
+    <button id="btn">Click Me (onclick)</button><br />
+
+    <!-- 3. onfocus & 4. onkeyup -->
+    <input
+      type="text"
+      id="inp"
+      placeholder="Focus & type here (onfocus, onkeyup)"
+    /><br />
+
+    <!-- Output message -->
+    <p id="msg">Interact with an element above</p>
+
+    <script>
+      const msg = document.getElementById("msg");
+
+      // 1. onmouseover
+      document.getElementById("box").onmouseover = () =>
+        (msg.textContent = "Event: onmouseover triggered!");
+
+      // 2. onclick
+      document.getElementById("btn").onclick = () =>
+        (msg.textContent = "Event: onclick triggered!");
+
+      const inp = document.getElementById("inp");
+
+      // 3. onfocus
+      inp.onfocus = () => (msg.textContent = "Event: onfocus triggered!");
+
+      // 4. onkeyup
+      inp.onkeyup = (e) =>
+        (msg.textContent = `Event: onkeyup triggered! (Key: ${e.key})`);
+    </script>
+  </body>
+</html>
